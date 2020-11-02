@@ -164,6 +164,8 @@ def addmultiple():
     #数据
     #你想要第几页数据
     #每一页有多少数据
+    page = request.args.get("page",1,type=int)
+    per_page = request.args.get("per_page",3,type=int)
     pserons = Pserson.query.limit(per_page).offset((page - 1) * per_page)
     
     
