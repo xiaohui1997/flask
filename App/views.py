@@ -149,6 +149,24 @@ def addmultiple():
     # except Exception:
     #     pass
     
+    #带条件的查询filte
+    persons = Person.query.filter(Person.p_name.__gt__(50)) #从Person表里的p_name里筛选出大于50的  gt(大于) lt(小于)  contains startswith endswith in_ like __gt__ __ge__(>=) __lt__ __le__(<=)  filter(类名.属性名.运算符('xxx'))  方法1
+    persons = Person.query.filter(Person.p_name > 50) #从Person表里的p_name里筛选出大于50的  filter(类名.属性  运算符  值)  order_by -order_by（正排序,倒序）方法2
+    #常用到级联数据上
+    persons = Person.query.filter_by(p_name=42)  #方法3
+    #order_by 应该在offset和limit之前 offset和limit不分顺序,都是先执行offset,后执行limit
+    persons = Person.query.order_by("p_name").offset(3).limit(4)
+    #根据id主键查询一条数据
+    person = Person.query.get(1) #查询id为1的记录   没找到返回None  获取最后一条数据 Person.query.order_by("-id").first(), 第一条数据first()
+    #分页
+    Pseron.query.limit(3).offset()  #3  要多少条数据
+    #分页
+    #数据
+    #你想要第几页数据
+    #每一页有多少数据
+    pserons = Pserson.query.limit(per_page).offset((page - 1) * per_page)
+    
+    
 #更新多条数据
 @simple_page.route('/modifystudent/'）
 def modify_student():
