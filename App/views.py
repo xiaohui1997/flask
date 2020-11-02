@@ -149,6 +149,19 @@ def addmultiple():
     # except Exception:
     #     pass
     
+#更新多条数据
+@simple_page.route('/modifystudent/'）
+def modify_student():
+    #先查出来再修改--单条
+    student = Person().query.first()    
+    student.s_name = "小明滚出去"     
+    db.session.add(student)
+    db.session.commit()
+    #删除数据
+    student = Person().query.first()
+    db.session.delete(student)
+    db.session.commit()
+                   
 @simple_page.route('/getpersons')
 def getper():
     persons = Person().query.all()
