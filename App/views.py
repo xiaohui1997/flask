@@ -118,6 +118,7 @@ def createdb():
     return 'DB Create Suncce'
     pass
 
+ #数据库插入数据
 @simple_page.route('/addperson/')
 def add_person():
     p = Person()
@@ -127,6 +128,27 @@ def add_person():
     return 'Person Add Success'
     pass
 
+#数据库插入多条数据
+@simple_page.route('/addmultiple/')
+def addmultiple():
+    students = []
+    for i in range(10)
+        student = Person()
+        student.p_name = "爱小明%d" % random.randrange(100)
+        stundents.append(students)
+    db.session.add_all(students)
+    db.session.commit()
+    #批量添加数据2
+    # c = Pen()
+    # types = ["铅笔","画笔","刷笔"]
+    # #批量添加数据
+    # objects = [Pen(name=types[0],type=str(data['qianbi'])), Pen(name=types[1],type=str(data['huabi'])), Pen(name=types[2],type=str(data['shuabi']))]
+    # db.session.add_all(objects)
+    # try:
+    #     db.session.commit()
+    # except Exception:
+    #     pass
+    
 @simple_page.route('/getpersons')
 def getper():
     persons = Person().query.all()
