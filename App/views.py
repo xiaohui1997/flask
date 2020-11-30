@@ -15,6 +15,9 @@ simple_page = Blueprint('simple_page', __name__,
 #         #abort(404)
 #         return 'im is test'
 
+#蓝图初始化
+def init_blue(app):
+    app.register_blueprint(blueprint=blue)
 
 @simple_page.route('/haha1')
 def haha1():

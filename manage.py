@@ -13,13 +13,16 @@ app = Flask(__name__)
 #mysql 数据库连接
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:xiaotang@192.168.144.107:3306/test1'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
 #APP蓝图
-from App.views import simple_page
-app.register_blueprint(simple_page) #注册蓝图
+#from App.views import simple_page
+#app.register_blueprint(simple_page) #注册蓝图
 
 #APP1蓝图
-from App1.views import rc
-app.register_blueprint(rc) #注册蓝图
+#from App1.views import rc
+#app.register_blueprint(rc) #注册蓝图
+
+
 manager = Manager(app=app)
 
 #db初始化
