@@ -5,9 +5,11 @@
 '''
 import pymysql
 from flask import Flask
+from Public import create_app
 from App.models import init_db
 from flask_script import Manager # flask-script 插件 可以接受终端参数  --help  python manage.py runservere
-app = Flask(__name__)
+#初始化蓝图
+app = create_app()
 #sqllite3 数据库连接
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///sqlite3.db'
 #mysql 数据库连接
