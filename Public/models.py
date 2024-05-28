@@ -21,3 +21,6 @@ class Person(db.Model):
     # tijiao_time = db.Column(db.DateTime, default=datetime.datetime.now)
     # #枚举
     # status = db.Column(db.Enum('0', '1', '2', '3'), server_default='0')
+
+class Tg(db.Model):
+    id = db.Column(db.Integer, primary_key=True,autoincrement=True)
