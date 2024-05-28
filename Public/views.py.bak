@@ -1,5 +1,5 @@
 import random
-from App.models import *
+from Public.models import *
 from flask import Blueprint, render_template, abort, url_for, request, make_response, redirect, jsonify, Response, session
 from jinja2 import TemplateNotFound
 
@@ -17,7 +17,7 @@ simple_page = Blueprint('simple_page', __name__,
 
 #蓝图初始化
 def init_blue(app):
-    app.register_blueprint(blueprint=blue)
+    app.register_blueprint(blueprint=simple_page)
 
 @simple_page.route('/haha1')
 def haha1():
@@ -138,7 +138,7 @@ def addmultiple():
     for i in range(10)
         student = Person()
         student.p_name = "爱小明%d" % random.randrange(100)
-        stundents.append(students)
+        student.append(students)
     db.session.add_all(students)
     db.session.commit()
     #批量添加数据2
