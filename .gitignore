@@ -1,7 +1,0 @@
-.*
-test.py
-*.pyc
-*.test
-.cache
-.swp
-!.gitignore
