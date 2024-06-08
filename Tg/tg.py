@@ -232,9 +232,10 @@ def sedmsgs(msg, parse_mode=telegram.ParseMode.HTML, chat_id=chat_id, parse_type
 #读取群消息
 # 处理群组消息的函数
 def handle_group_message(update: Update, context) -> None:
-    message = update.message
-    chat_id = message.chat_id
-    text = message.text
+    # message = update.message
+    # chat_id = message.chat_id
+    # text = message.text
+    pass
 
     # 在这里处理群组消息
     # 可以根据需要编写逻辑来响应不同的消息内容
@@ -245,7 +246,7 @@ def handle_group_message(update: Update, context) -> None:
     #     context.bot.send_message(chat_id=chat_id, text=f"{res[1]}")
     #     context.bot.send_message(chat_id=chat_id, text=f"--"*30)
     # 示例：回复收到的消息
-    context.bot.send_message(chat_id=chat_id, text=f"You said: {text}")
+    #context.bot.send_message(chat_id=chat_id, text=f"You said: {text}")
 
 #bot从群里删除或者添加时触发
 def chat_member_updated(update: Update, context: CallbackContext):
