@@ -139,7 +139,7 @@ def aliyun_webhook(name, chatid, hschatid):
             #全部销毁
             for i in msgid_list:
                 cancelmsg(msgid=i[0], chat_id=chatid, secodes=20)#撤销告警通知(可能有多个,批量销毁)
-            cancelmsg(msgid=str(res.message_id), chat_id=chatid, secodes=30) #撤销回复默认1小时 3600秒
+            cancelmsg(msgid=str(res.message_id), chat_id=chatid, secodes=3600) #撤销回复默认1小时 3600秒
             send(msg, chat_id=hschatid) #告警历史群
             return jsonify({'code': 200, 'info': '告警成功'}), 200
 
