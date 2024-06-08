@@ -26,3 +26,17 @@ class Person(db.Model):
 
 class Tg(db.Model):
     id = db.Column(db.Integer, primary_key=True,autoincrement=True)
+
+class AliWebhook(db.Model):
+    id = db.Column(db.Integer, primary_key=True,autoincrement=True)
+    rules = db.Column(db.String())
+    instanceId = db.Column(db.String())
+    msgid = db.Column(db.String())
+    transId = db.Column(db.String())
+    timestamp = db.Column(db.String())
+
+class AliWebhook_white(db.Model):
+    id = db.Column(db.Integer, primary_key=True,autoincrement=True)
+    rules = db.Column(db.String())
+    instanceId = db.Column(db.String())
+    isall = db.Column(db.Integer()) #是否全部屏蔽 1是全部屏蔽 0是单个规则屏蔽

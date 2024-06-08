@@ -5,3 +5,5 @@ test.py
 .cache
 .swp
 !.gitignore
+myenv
+test.*
