@@ -9,13 +9,14 @@ alihook = Blueprint('alihook', __name__,
     static_folder='static', #静态文件夹
     template_folder='templates') #蓝图名称,导入的名称
 
-@alihook.route("/aliyun/webhook/37aba484c6261fe79d9729d93a7084c4/<string:name>/<string:chatid>/<string:hschatid>", methods=['POST']) #路径加密
-def aliyun_webhook(name, chatid, hschatid):
+@alihook.route("/aliyun/webhook/37aba484c6261fe79d9729d93a7084c4/<string:name>/<string:chatid>/<string:hschatid>/<string:hsname>", methods=['POST']) #路径加密
+def aliyun_webhook(name, chatid, hschatid, hsname):
     '''
     路径加密:固定
     平台名称: 可替换
     chat_id: 可替换
     hschatid: 历史群组id
+    hsname: 历史群组名称,分享链接名称：+KhBOVqnJjswzOTE0
     完整路径: /aliyun/webhook/37aba484c6261fe79d9729d93a7084c4/平台名称/chat_id
     '''
     # 只接受 POST 请求
@@ -62,7 +63,7 @@ def aliyun_webhook(name, chatid, hschatid):
 [当前数值]: {}
 [所属平台]: {}
 [监控图]: <a href="{}">查看监控图</a>
-[历史报警]: <a href="https://t.me/+KhBOVqnJjswzOTE0">历史报警记录</a>
+[历史报警]: <a href="https://t.me/{}">历史报警记录</a>
 [通知发出时间]: {}
 [原始数据]: <pre>{}</pre>
             """.format(
@@ -76,6 +77,7 @@ def aliyun_webhook(name, chatid, hschatid):
                     data['curValue'] + str(data['unit']),
                     str(name),
                     link,
+                    str(hsname),
                     time.strftime("%Y-%m-%d %H:%M:%S",
                         time.localtime(
                         int(data['timestamp'][0:10]))),
@@ -114,8 +116,6 @@ def aliyun_webhook(name, chatid, hschatid):
 [恢复时间]: {}
 [持续时间]: {}
 [监控图]: <a href="{}">查看监控图</a>
-[历史报警]: <a href="https://t.me/+KhBOVqnJjswzOTE0">历史报警记录</a>
-[消息销毁]: 1小时后销毁已恢复消息
 [原始数据]: <pre>{}</pre>
 """.format(
         pname,

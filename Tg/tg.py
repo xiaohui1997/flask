@@ -153,12 +153,13 @@ def cloudmonitor(update: Update, context) -> None:
     chat_id = update.message.chat_id
     msg = '''
 <b>示例webhook地址如下: </b>
-<pre>https://aliwebhook.22889.club/aliyun/webhook/37aba484c6261fe79d9729d93a7084c4/TB/-4246362489/-4245759043
+<pre>https://aliwebhook.22889.club/aliyun/webhook/37aba484c6261fe79d9729d93a7084c4/TB/-4246362489/-4245759043/+KhBOVqnJjswzOTE0
 
 37aba484c6261fe79d9729d93a7084c4: token(固定参数)
 TB: 平台名称(根据平台名称进行替换)
 -4241574382: 群组id(根据对应群组id进行替换),每个群都有个群组id,可以通过机器人获取
 -4266575929: 历史记录群组ID
++KhBOVqnJjswzOTE0: 群组id(分享群组链接能看到)
 </pre>
         '''
     context.bot.send_message(chat_id, text=msg, parse_mode=ParseMode.HTML)
