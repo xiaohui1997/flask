@@ -116,13 +116,14 @@ def aliyun_webhook(name, chatid, hschatid, hsname):
 [恢复时间]: {}
 [持续时间]: {}
 [监控图]: <a href="{}">查看监控图</a>
+[历史报警]: <a href="https://t.me/{}">历史报警记录</a>
 [原始数据]: <pre>{}</pre>
 """.format(
         pname,
         data['alertName'],
         data['triggerLevel'] + "😎",
         str(name), # str(name)
-        data['instanceName'],
+        data['instanceName'].split('/')[0],
         IP,
         data['curValue'] + str(data['unit']),
         data['metricName'] + ' ' + data['expression'].replace('<=', '&lt;=').replace('>=', '&gt;='),
@@ -131,6 +132,7 @@ def aliyun_webhook(name, chatid, hschatid, hsname):
                           int(data['timestamp'][0:10]))),
         data['lastTime'],
         link,
+        str(hsname),
         str(eval(data['dimensionsOriginal']))
     )
             #查出所有的msgid
