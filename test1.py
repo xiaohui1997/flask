@@ -1,31 +1,18 @@
-import requests
+data = {'severity': 'INFO', 'userInfo': '{"aliyunId":"xinbo5988@gmail.com","userIdSec":"520546***45164","aliyunIdSec":"xinbo59***il.com","nickName":"xinbo5988","nickNameSec":"xin***988","userName":"TRẦN NHÂNTẠO","userId":"5205465841845164","userNameSec":"TRẦN***NTẠO"}', 'strategyName': '测试', 'relatedAlertIds': '["1e944627-80d9-4386-a87c-3b34bbf44763"]', 'groupingId': '8e89fb894cdb4430b2b6ede761820118', 'project': 'acs_custom_5205465841845164', 'retriggerTime': '0', 'subscription': '{"subscriptionUuid":"f2a391f18e6a46f8b664ef2d35f21d2c","conditions":[{"op":"EQ","field":"source","value":"SYS_EVENT"}],"relation":"AND"}', 'batchId': '6d8229b3a0c64fd2a1546cc0003637bb', 'userId': '5205465841845164', 'escalationLevel': '0', 'alert': '{"alertStatus":"TRIGGERED","traceId":"1e944627-80d9-4386-a87c-3b34bbf44763","severity":"INFO","product":"ECS","groupId":"239356893","eventRawContent":"{\\"resourceId\\":\\"i-0xidg1uxr1ii3b1wvvl1\\",\\"publicIpAddress\\":\\"47.253.108.138\\",\\"instanceName\\":\\"us-fanye-test-web\\",\\"instanceType\\":\\"ecs.g7.large\\",\\"state\\":\\"Stopping\\",\\"privateIpAddress\\":\\"10.20.20.214\\",\\"resourceType\\":\\"ALIYUN::ECS::Instance\\"}","project":"acs_custom_5205465841845164","source":"SYS_EVENT","eventType":"StatusNotification","userId":"5205465841845164","groupName":"test","eventContentMap":{"resourceId":"i-0xidg1uxr1ii3b1wvvl1","publicIpAddress":"47.253.108.138","instanceName":"us-fanye-test-web","instanceType":"ecs.g7.large","state":"Stopping","privateIpAddress":"10.20.20.214","resourceType":"ALIYUN::ECS::Instance"},"meta":{"sysEventMeta":{"regionNameEn":"us-east-1","resourceId":"acs:ecs:us-east-1:5205465841845164:instance/i-0xidg1uxr1ii3b1wvvl1","product":"ECS","eventNameEn":"Instance:StateChange","instanceName":"us-fanye-test-web","level":"INFO","resource":"","regionNameZh":"美东弗吉尼亚","groupId":"239356893","serviceTypeEn":"ECS","eventType":"StatusNotification","serviceTypeZh":"云服务器ECS","regionId":"us-east-1","eventTime":"20240910T172637.108+0800","name":"Instance:StateChange","id":"1e944627-80d9-4386-a87c-3b34bbf44763","status":"Normal","eventNameZh":"实例状态改变通知"}},"dedupId":"1e944627-80d9-4386-a87c-3b34bbf44763","eventName":"Instance:StateChange","arn":"acs:ecs:us-east-1:5205465841845164:instance/i-0xidg1uxr1ii3b1wvvl1","timestamp":1725960397000}', 'alertCount': '0', 'nextEscalateTime': '0', 'startTime': '1725960397000', 'time': '1725960397000', 'autoResolveTime': '0'}
 
-cookies = {
-    'XSRF-TOKEN': 'eyJpdiI6IkE1K3B4RldCeVhnRytLcXg5VDR1Z3c9PSIsInZhbHVlIjoiSXVkZXNTamlGQXR6RjJBV2FUZmxaVjdBVTFzUU1yZ0dodHc1eHM4aXFnK2hBS1hOejVFaWFFdXk2aDlxNlFvWnZuVTR3VTRXYWRCTE5tdjg1T1UxY05NU1l6aDhXazZaTjFyZ0NhMWlUNktQRUtZaVR0NEhTK2FOVHpBTUFiM0kiLCJtYWMiOiI4ZGY1MjNhMDI5YjNlZTkyMzExN2NlOTZkZTNjN2Y3YWVlMTM4NWYyZDkxNmY2MDllMTU0YTljY2Y0ZWEyZmVhIiwidGFnIjoiIn0%3D',
-    'ar_cf_session': 'hbiF3aetyU0cyplZ6fsu6cpSjNjAMzcSpETiN06L',
-}
 
-headers = {
-    'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
-    'accept-language': 'zh-CN,zh;q=0.9',
-    'cache-control': 'max-age=0',
-    # 'cookie': 'XSRF-TOKEN=eyJpdiI6IkE1K3B4RldCeVhnRytLcXg5VDR1Z3c9PSIsInZhbHVlIjoiSXVkZXNTamlGQXR6RjJBV2FUZmxaVjdBVTFzUU1yZ0dodHc1eHM4aXFnK2hBS1hOejVFaWFFdXk2aDlxNlFvWnZuVTR3VTRXYWRCTE5tdjg1T1UxY05NU1l6aDhXazZaTjFyZ0NhMWlUNktQRUtZaVR0NEhTK2FOVHpBTUFiM0kiLCJtYWMiOiI4ZGY1MjNhMDI5YjNlZTkyMzExN2NlOTZkZTNjN2Y3YWVlMTM4NWYyZDkxNmY2MDllMTU0YTljY2Y0ZWEyZmVhIiwidGFnIjoiIn0%3D; ar_cf_session=hbiF3aetyU0cyplZ6fsu6cpSjNjAMzcSpETiN06L',
-    'priority': 'u=0, i',
-    'sec-ch-ua': '"Google Chrome";v="125", "Chromium";v="125", "Not.A/Brand";v="24"',
-    'sec-ch-ua-mobile': '?0',
-    'sec-ch-ua-platform': '"macOS"',
-    'sec-fetch-dest': 'document',
-    'sec-fetch-mode': 'navigate',
-    'sec-fetch-site': 'none',
-    'sec-fetch-user': '?1',
-    'upgrade-insecure-requests': '1',
-    'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36',
-}
-
-proxies = {
-  'http': 'http://fanye:fanye@1997@47.236.76.143:8089',
-}
-
-response = requests.get('https://cfwebs.xyz/admin/login', cookies=cookies, headers=headers, proxies=proxies)
-
-print(response.text)
+try:
+    if data['alertState'] == 'ALERT':
+        # ecs
+        print(123123)
+        pass
+    # rds
+    elif data['metricProject'] == "acs_rds":
+        pass
+    else:
+        pass
+except KeyError as e:
+    #走事件订阅渠道
+    a = eval(data['subscription'])
+    print(a['conditions'][0]['value'])
+    print(data['severity'])
