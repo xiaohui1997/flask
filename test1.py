@@ -16,3 +16,6 @@ except KeyError as e:
     a = eval(data['subscription'])
     print(a['conditions'][0]['value'])
     print(data['severity'])
+  #"meta":{"sysEventMeta"
+    c = eval(data['alert'])['meta']['sysEventMeta']['eventNameZh']
+    print(c)

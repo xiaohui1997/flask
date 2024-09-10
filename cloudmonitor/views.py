@@ -145,6 +145,8 @@ def aliyun_webhook(name, chatid, hschatid, hsname):
         )
                 #查出所有的msgid
                 msgid_list = AliWebhook.query.with_entities(AliWebhook.msgid).filter_by(transId=data['transId']).order_by(AliWebhook.msgid.desc()).all()
+                print(msgid_list)
+
                 res = reply_to_message(chat_id=chatid, message_id=msgid_list[0][0], text=msg)
                 #全部销毁
                 for i in msgid_list:
@@ -158,10 +160,13 @@ def aliyun_webhook(name, chatid, hschatid, hsname):
         except KeyError as e:
             # 走事件订阅渠道
             print('渠道')
-            print(data['severity'])
+            #报警等级
+            d_level = data['severity']
             #订阅类型
             d_type = eval(data['subscription'])['conditions'][0]['value']
             print(d_type)
+            c = eval(data['alert'])['meta']['sysEventMeta']['eventNameZh']
+            print(c)
             return jsonify({'code': 200, 'info': 'successful'}), 200
     else:
         return 'Method not allowed'
