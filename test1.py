@@ -17,5 +17,6 @@ except KeyError as e:
     print(a['conditions'][0]['value'])
     print(data['severity'])
   #"meta":{"sysEventMeta"
-    c = eval(data['alert'])['meta']['sysEventMeta']['eventNameZh']
+    #详情
+    c = eval(data['alert'])['eventContentMap']
     print(c)

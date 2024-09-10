@@ -146,13 +146,16 @@ def aliyun_webhook(name, chatid, hschatid, hsname):
                 #查出所有的msgid
                 msgid_list = AliWebhook.query.with_entities(AliWebhook.msgid).filter_by(transId=data['transId']).order_by(AliWebhook.msgid.desc()).all()
                 print(msgid_list)
-
-                res = reply_to_message(chat_id=chatid, message_id=msgid_list[0][0], text=msg)
-                #全部销毁
-                for i in msgid_list:
-                    cancelmsg(msgid=i[0], chat_id=chatid, secodes=20)#撤销告警通知(可能有多个,批量销毁)
-                cancelmsg(msgid=str(res.message_id), chat_id=chatid, secodes=3600) #撤销回复默认1小时 3600秒
-                send(msg, chat_id=hschatid) #告警历史群
+                try:
+                    res = reply_to_message(chat_id=chatid, message_id=msgid_list[0][0], text=msg)
+                    #全部销毁
+                    for i in msgid_list:
+                        cancelmsg(msgid=i[0], chat_id=chatid, secodes=20)#撤销告警通知(可能有多个,批量销毁)
+                    cancelmsg(msgid=str(res.message_id), chat_id=chatid, secodes=3600) #撤销回复默认1小时 3600秒
+                    send(msg, chat_id=hschatid) #告警历史群
+                except Exception as e:
+                    send(msg, chat_id=hschatid)  # 告警历史群
+                    send(msg, chat_id=chatid, ali_button=1, call_data=data['transId'], isFunc=1)  # 告警群
                 return jsonify({'code': 200, 'info': '告警成功'}), 200
 
             else:
@@ -165,7 +168,14 @@ def aliyun_webhook(name, chatid, hschatid, hsname):
             #订阅类型
             d_type = eval(data['subscription'])['conditions'][0]['value']
             print(d_type)
+            #通知摘要
             c = eval(data['alert'])['meta']['sysEventMeta']['eventNameZh']
+            print(c)
+            #产品
+            c = eval(data['alert'])['meta']['sysEventMeta']['serviceTypeZh']
+            print(c)
+            # 详情
+            c = eval(data['alert'])['eventContentMap']
             print(c)
             return jsonify({'code': 200, 'info': 'successful'}), 200
     else:
