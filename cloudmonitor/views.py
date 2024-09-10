@@ -29,20 +29,22 @@ def aliyun_webhook(name, chatid, hschatid, hsname):
                 'msg': '参数不完整'
             }
             return jsonify(info)
-        ########################黑名单注释########################
-        #处理黑名单--全部忽略
-        '''
-        print(AliWebhook_white.query.filter_by(instanceId= eval(data['dimensionsOriginal'])['instanceId'], isall=1).first())
-        print(AliWebhook_white.query.filter_by(rules=str(data['metricName'] + ' ' + data['expression']), instanceId= eval(data['dimensionsOriginal'])['instanceId']).first())
-        
-        if AliWebhook_white.query.filter_by(instanceId= eval(data['dimensionsOriginal'])['instanceId'], isall=1).first():
-            return jsonify({'code': 200, 'info': '已加入黑名单忽略全部报警消息'}), 200
-        if AliWebhook_white.query.filter_by(rules=str(data['metricName'] + ' ' + data['expression']), instanceId= eval(data['dimensionsOriginal'])['instanceId']).first():
-            return jsonify({'code': 200, 'info': '已加入黑名单忽略该规则报警消息'}), 200
-        '''
         #处理数据
-        #发生告警
         try:
+            # 处理黑名单
+            print(AliWebhook_white.query.filter_by(instanceId=eval(data['dimensionsOriginal'])['instanceId'],
+                                                   isall=1).first())
+            print(AliWebhook_white.query.filter_by(rules=str(data['metricName'] + ' ' + data['expression']),
+                                                   instanceId=eval(data['dimensionsOriginal'])['instanceId']).first())
+
+            if AliWebhook_white.query.filter_by(instanceId=eval(data['dimensionsOriginal'])['instanceId'],
+                                                isall=1).first():
+                return jsonify({'code': 200, 'info': '已加入黑名单忽略全部报警消息'}), 200
+            if AliWebhook_white.query.filter_by(rules=str(data['metricName'] + ' ' + data['expression']),
+                                                instanceId=eval(data['dimensionsOriginal'])['instanceId']).first():
+                return jsonify({'code': 200, 'info': '已加入黑名单忽略该规则报警消息'}), 200
+
+            # 发生告警
             if data['alertState'] == 'ALERT':
                 #ecs
                 if data['metricProject']=="acs_ecs":
@@ -58,17 +60,17 @@ def aliyun_webhook(name, chatid, hschatid, hsname):
                     return jsonify({'code': 200, 'info': '非报警消息'}), 403
                 msg = """<b>阿里云{}报警:  {}</b>
     
-    [报警等级]: {}
-    [报警规则]:  {}
-    [报警持续时间]: {}
-    [实例名称]: {}
-    [实例IP]: {}
-    [当前数值]: {}
-    [所属平台]: {}
-    [监控图]: <a href="{}">查看监控图</a>
-    [历史报警]: <a href="https://t.me/{}">历史报警记录</a>
-    [通知发出时间]: {}
-    [原始数据]: <pre>{}</pre>
+[报警等级]: {}
+[报警规则]:  {}
+[报警持续时间]: {}
+[实例名称]: {}
+[实例IP]: {}
+[当前数值]: {}
+[所属平台]: {}
+[监控图]: <a href="{}">查看监控图</a>
+[历史报警]: <a href="https://t.me/{}">历史报警记录</a>
+[通知发出时间]: {}
+[原始数据]: <pre>{}</pre>
                 """.format(
                         pname,
                         data['alertName'],
@@ -110,17 +112,17 @@ def aliyun_webhook(name, chatid, hschatid, hsname):
                     return jsonify({'code': 200, 'info': '非报警消息'}), 403
                 msg = """<b>阿里云{}报警【恢复】:  {}</b>
         
-    [当前状态]: {}
-    [所属平台]: {}
-    [实例名称]: {}
-    [实例IP]: {}
-    [当前数值]: {}
-    [报警规则]:  {}
-    [恢复时间]: {}
-    [持续时间]: {}
-    [监控图]: <a href="{}">查看监控图</a>
-    [历史报警]: <a href="https://t.me/{}">历史报警记录</a>
-    [原始数据]: <pre>{}</pre>
+[当前状态]: {}
+[所属平台]: {}
+[实例名称]: {}
+[实例IP]: {}
+[当前数值]: {}
+[报警规则]:  {}
+[恢复时间]: {}
+[持续时间]: {}
+[监控图]: <a href="{}">查看监控图</a>
+[历史报警]: <a href="https://t.me/{}">历史报警记录</a>
+[原始数据]: <pre>{}</pre>
     """.format(
             pname,
             data['alertName'],
@@ -152,6 +154,7 @@ def aliyun_webhook(name, chatid, hschatid, hsname):
                 return jsonify({'code': 200, 'info': '非报警消息'}), 403
         except KeyError as e:
             # 走事件订阅渠道
+            print('渠道')
             print(data['severity'])
             #订阅类型
             d_type = eval(data['subscription'])['conditions'][0]['value']
