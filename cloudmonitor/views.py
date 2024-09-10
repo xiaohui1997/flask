@@ -19,6 +19,9 @@ def aliyun_webhook(name, chatid, hschatid, hsname):
     hsname: 历史群组名称,分享链接名称：+KhBOVqnJjswzOTE0
     完整路径: /aliyun/webhook/37aba484c6261fe79d9729d93a7084c4/平台名称/chat_id
     '''
+    if request.method == 'GET':
+        return jsonify({'code': 200, 'info': '请使用POST请求'}), 200
+
     # 只接受 POST 请求
     if request.method == 'POST':
         data = request.form.to_dict()
@@ -159,5 +162,6 @@ def aliyun_webhook(name, chatid, hschatid, hsname):
             #订阅类型
             d_type = eval(data['subscription'])['conditions'][0]['value']
             print(d_type)
+            return jsonify({'code': 200, 'info': 'successful'}), 200
     else:
         return 'Method not allowed'
