@@ -10,7 +10,6 @@ def event(data, name, hsname, hschatid, chatid):
     pname = '事件中心'
     xh = 3600*8 #默认8个小时
     print(data)
-    print('进入')
     # 报警等级
     d_level = data['severity']
     # 订阅类型
@@ -20,9 +19,9 @@ def event(data, name, hsname, hschatid, chatid):
     zaiyao = eval(data['alert'])['meta']['sysEventMeta']['eventNameZh']
 
     # 主机名
-    hostname = eval(data['alert'])['eventContentMap']['instanceName']
+    hostname = eval(data['alert'])['meta']['eventContentMap']['instanceName']
     # IP
-    IP = eval(data['alert'])['eventContentMap']['publicIpAddress']
+    IP = eval(data['alert'])['meta']['eventContentMap']['publicIpAddress']
     #产品
     product = eval(data['alert'])['meta']['sysEventMeta']['serviceTypeZh']
     # 时间
