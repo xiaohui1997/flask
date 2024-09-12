@@ -20,8 +20,6 @@ def event(data, name, hsname, hschatid, chatid):
 
     # 主机名
     hostname = eval(data['alert'])['meta']['eventContentMap']['instanceName']
-    # IP
-    IP = eval(data['alert'])['meta']['eventContentMap']['publicIpAddress']
     #产品
     product = eval(data['alert'])['meta']['sysEventMeta']['serviceTypeZh']
     # 时间
@@ -32,27 +30,21 @@ def event(data, name, hsname, hschatid, chatid):
     dt = time.strftime("%Y-%m-%d %H:%M:%S", time_local)
     # 详情
     xq = eval(data['alert'])['eventContentMap']
-    # 状态
-    status = eval(data['alert'])['eventContentMap']['state']
 
 
     msg = """<b>阿里云【{}】报警</b>
 
 [实例名称]: {}
-[实例IP]: {}
 [报警等级]: {}
 [通知摘要]: {}
-[状态]: {}
 [产品]: {}
 [订阅类型]: {}
 [通知时间]: {}
 [详情]: <pre>{}</pre>""".format(
     pname,
     hostname,
-    IP,
     d_level,
     zaiyao,
-    status,
     product,
     d_type,
     dt,
