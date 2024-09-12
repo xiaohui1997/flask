@@ -35,7 +35,7 @@ def aliyun_webhook(name, chatid, hschatid, hsname):
             event(data, name, hsname, hschatid, chatid)
         ################################################
         # 发生告警-告警处理
-        if data['alertState'] == 'ALERT':
+        elif data['alertState'] == 'ALERT':
             # 通知告警
             alert(data, name, hsname, hschatid, chatid)
         elif data['alertState'] == 'OK':

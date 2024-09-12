@@ -4,18 +4,7 @@ a={'severity': 'INFO', 'userInfo': '{"aliyunId":"wokar490@gmail.com","userIdSec"
 
 
 
-# 通知摘要
-zaiyao = eval(data['alert'])['meta']['sysEventMeta']['eventNameZh']
-print(zaiyao)
-# 主机名
-hostname = eval(data['alert'])['meta']['sysEventMeta']['instanceName']
-print(hostname)
-#产品
-product = eval(data['alert'])['meta']['sysEventMeta']['serviceTypeZh']
-print(product)
-# 详情
-xq = eval(data['alert'])['eventContentMap']
-print(xq)
+
 
 
 
