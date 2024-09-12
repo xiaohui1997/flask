@@ -19,7 +19,7 @@ def event(data, name, hsname, hschatid, chatid):
     zaiyao = eval(data['alert'])['meta']['sysEventMeta']['eventNameZh']
 
     # 主机名
-    hostname = eval(data['alert'])['meta']['eventContentMap']['instanceName']
+    hostname = eval(data['alert'])['meta']['sysEventMeta']['instanceName']
     #产品
     product = eval(data['alert'])['meta']['sysEventMeta']['serviceTypeZh']
     # 时间
