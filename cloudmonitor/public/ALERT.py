@@ -22,12 +22,19 @@ def alert(data, name, hsname, hschatid, chatid):
         IP = "无"
         link = "https://rdsnext.console.aliyun.com/detail/{}/performance".format(
             eval(data['dimensionsOriginal'])['instanceId'])
+    #redis-cluster
+    elif data['metricProject'] == "acs_kvstore":
+        print(data['regionId'])
+        pname = 'Redis-cluster'
+        IP = "无"
+        link = "https://kvstore.console.aliyun.com/Redis/instance/{}/{}".format(
+            str(data['regionId']), eval(data['dimensionsOriginal'])['instanceId'])
     else:
         return jsonify({'code': 200, 'info': '非报警消息'}), 403
 
 #######################################上面条件判断########################################
 
-    msg = """<b>阿里云{}报警:  {}</b>
+    msg = """<b>阿里云【{}】报警:  {}</b>
 
 [报警等级]: {}
 [报警规则]:  {}
@@ -57,6 +64,7 @@ def alert(data, name, hsname, hschatid, chatid):
                           int(data['timestamp'][0:10]))),
         str(eval(data['dimensionsOriginal']))
     )
+    print(msg)
     # 消息发送
     send(msg, chat_id=hschatid)  # 告警历史群
     res = send(msg, chat_id=chatid, ali_button=1, call_data=data['transId'], isFunc=1)  # 告警群
@@ -66,6 +74,7 @@ def alert(data, name, hsname, hschatid, chatid):
                              transId=data['transId'], timestamp=data['timestamp'])
     db.session.add(new_webhook)
     db.session.commit()
+    return jsonify({'code': 200, 'info': '告警成功'}), 200
 
 
 #######################################上面告警发送########################################
@@ -95,7 +104,7 @@ def ok(data, name, hsname, hschatid, chatid):
 
     #######################################上面条件判断########################################
 
-    msg = """<b>阿里云{}报警【恢复】:  {}</b>
+    msg = """<b>阿里云【{}】报警【恢复】:  {}</b>
 
 [当前状态]: {}
 [所属平台]: {}
@@ -141,3 +150,4 @@ def ok(data, name, hsname, hschatid, chatid):
         print(e)
         send(msg, chat_id=chatid, ali_button=1, call_data=data['transId'], isFunc=1)  # 告警群
         send(msg, chat_id=hschatid)
+    return jsonify({'code': 200, 'info': '告警恢复成功'}), 200

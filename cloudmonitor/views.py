@@ -38,13 +38,15 @@ def aliyun_webhook(name, chatid, hschatid, hsname):
             # 发生告警-告警处理
             elif data['alertState'] == 'ALERT':
                 # 通知告警
-                alert(data, name, hsname, hschatid, chatid)
+                res = alert(data, name, hsname, hschatid, chatid)
+                return res
             elif data['alertState'] == 'OK':
                 # 通知恢复
-                ok(data, name, hsname, hschatid, chatid)
+                res = ok(data, name, hsname, hschatid, chatid)
+                return res
             return jsonify({'code': 200, 'info': 'successful'}), 200
         except Exception as e:
-            print('规则匹配错误')
+            print('规则匹配错误/start bot')
             print(e)
             return jsonify({'code': 200, 'info': '规则匹配错误'}), 200
     else:
