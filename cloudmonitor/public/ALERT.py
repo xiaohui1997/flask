@@ -136,6 +136,8 @@ def ok(data, name, hsname, hschatid, chatid):
             cancelmsg(msgid=i[0], chat_id=chatid, secodes=20)  # 撤销告警通知(可能有多个,批量销毁)
         cancelmsg(msgid=str(res.message_id), chat_id=chatid, secodes=xh)  # 撤销回复
         send(msg, chat_id=hschatid)  # 告警历史群
-    except Exception:
+    except Exception as e:
+        print('触发异常')
+        print(e)
         send(msg, chat_id=chatid, ali_button=1, call_data=data['transId'], isFunc=1)  # 告警群
         send(msg, chat_id=hschatid)
