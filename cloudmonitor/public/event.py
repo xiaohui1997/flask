@@ -36,9 +36,14 @@ def event(data, name, hsname, hschatid, chatid):
     xq = eval(data['alert'])['eventContentMap']
 
 
-    #只要包含快照2个字就跳过
+    #屏蔽部分消息
     if '磁盘快照' in zaiyao:
         return jsonify({'code': 200, 'info': '跳过,快照'}), 200
+    if '资源标签' in zaiyao:
+        return jsonify({'code': 200, 'info': '跳过,资源标签'}), 200
+
+    #调试
+    print(data)
 
     msg = """<b>阿里云【{}】报警</b>
 
