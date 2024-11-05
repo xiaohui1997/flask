@@ -1,4 +1,4 @@
-import time, json
+import time, json, base64
 from Tg.tg import sedmsgs as send
 from Tg.tg import cancelmsg
 from flask import jsonify
@@ -7,8 +7,12 @@ from alibabacloud_sas20181203 import models as sas_20181203_models
 from alibabacloud_tea_util import models as util_models
 
 
-def login_ip(pname, hostname, d_level, d_name, zaiyao, product, hsname, uuids, unique_info):
-    client = Sample('a','b').create_client()
+def login_ip(pname, hostname, d_level, d_name, zaiyao, product, hsname, uuids, unique_info, ask):
+    # 解码
+    decoded_bytes = base64.b64decode(ask)
+    decoded_str = decoded_bytes.decode('utf-8')
+    ak, sk = decoded_str.split('/')
+    client = Sample(ak, sk).create_client()
     # 直接在这里定义请求参数
     describe_susp_events_request = sas_20181203_models.DescribeSuspEventsRequest(
         uuids=uuids,
@@ -72,7 +76,7 @@ def login_ip(pname, hostname, d_level, d_name, zaiyao, product, hsname, uuids, u
 
 
 
-def event(data, name, hsname, hschatid, chatid):
+def event(data, name, hsname, hschatid, chatid, ask):
     '''
     事件处理
     '''
@@ -140,8 +144,8 @@ def event(data, name, hsname, hschatid, chatid):
     xq
 )
     # 拦截异常登录需额外处理
-    if '异常登录' in zaiyao:
-        msg = login_ip(pname, hostname, d_level, d_name, zaiyao, product, hsname, uuids, unique_info)
+    if '异常登录' in zaiyao and ask != None:
+        msg = login_ip(pname, hostname, d_level, d_name, zaiyao, product, hsname, uuids, unique_info, ask)
 
     #消息发送
     res = send(msg, chat_id=chatid, ali_button=1, call_data='123', isFunc=1) #告警群
