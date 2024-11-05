@@ -1,7 +1,75 @@
-import time
+import time, json
 from Tg.tg import sedmsgs as send
 from Tg.tg import cancelmsg
 from flask import jsonify
+from Public.alibaba import Sample
+from alibabacloud_sas20181203 import models as sas_20181203_models
+from alibabacloud_tea_util import models as util_models
+
+
+def login_ip(pname, hostname, d_level, d_name, zaiyao, product, hsname, uuids, unique_info):
+    client = Sample('a','b').create_client()
+    # 直接在这里定义请求参数
+    describe_susp_events_request = sas_20181203_models.DescribeSuspEventsRequest(
+        uuids=uuids,
+        unique_info=unique_info
+    )
+
+    runtime = util_models.RuntimeOptions()
+
+    # 调用API并处理返回值
+    res = client.describe_susp_events_with_options(describe_susp_events_request, runtime).to_map()
+    print(res)
+    # 事件名称
+    re_name = res['body']['SuspEvents'][0]['AlarmEventNameDisplay']
+    for i in res['body']['SuspEvents'][0]['Details']:
+        if i['NameDisplay'] == '登录时间':
+            re_time = i['Value']
+        elif i['NameDisplay'] == '登录账号':
+            re_user = i['Value']
+        elif i['NameDisplay'] == '登录协议':
+            re_type = i['Value']
+        elif i['NameDisplay'] == '登录源IP':
+            re_ip = i['Value']
+        elif i['NameDisplay'] == '登录端口':
+            re_port = i['Value']
+        elif i['NameDisplay'] == '登录地':
+            re_address = i['Value']
+    msg = """<b>阿里云【{}】报警</b>
+
+[实例名称]: {}
+[报警等级]: {}
+[平台名称]: {}
+[通知摘要]: {}
+[产品]: {}
+[描述]: {}
+[登录时间]: {}
+[登录账号]: {}
+[登录协议]: {}
+[登录源IP]: {}
+[登录端口]: {}
+[登录地点]: {}
+[历史报警]: <a href="https://t.me/{}">历史报警记录</a>""".format(
+        pname,
+        hostname,
+        d_level,
+        d_name,
+        zaiyao,
+        product,
+        re_name,
+        re_time,
+        re_user,
+        re_type,
+        re_ip,
+        re_port,
+        re_address,
+        str(hsname)
+    )
+
+    print(msg)
+    return msg
+
+
 
 
 def event(data, name, hsname, hschatid, chatid):
@@ -18,6 +86,10 @@ def event(data, name, hsname, hschatid, chatid):
     d_name = data['strategyName']
     # 通知摘要
     zaiyao = eval(data['alert'])['meta']['sysEventMeta']['eventNameZh']
+    # uuids
+    uuids = eval(data['alert'])['eventContentMap']['uuid']
+    # unique_info
+    unique_info = eval(data['alert'])['eventContentMap']['unique_info']
 
     # 主机名
     hostname = eval(data['alert'])['meta']['sysEventMeta']['instanceName']
@@ -67,7 +139,14 @@ def event(data, name, hsname, hschatid, chatid):
     str(hsname),
     xq
 )
+    # 拦截异常登录需额外处理
+    if '异常登录' in zaiyao:
+        msg = login_ip(pname, hostname, d_level, d_name, zaiyao, product, hsname, uuids, unique_info)
+
     #消息发送
     res = send(msg, chat_id=chatid, ali_button=1, call_data='123', isFunc=1) #告警群
     send(msg, chat_id=hschatid)#历史群
     cancelmsg(msgid=str(res.message_id), chat_id=chatid, secodes=xh)
+
+if __name__ == '__main__':
+    login_ip()
