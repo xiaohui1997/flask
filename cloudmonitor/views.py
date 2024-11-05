@@ -19,7 +19,8 @@ def aliyun_webhook(name, chatid, hschatid, hsname):
     '''
     if request.method == 'GET':
         return jsonify({'code': 200, 'info': '请使用POST请求'}), 200
-
+        
+    ask = request.args.get('ask')  # 获取ak/sk
     # 只接受 POST 请求
     if request.method == 'POST':
         data = request.form.to_dict()
@@ -33,7 +34,7 @@ def aliyun_webhook(name, chatid, hschatid, hsname):
         try:
             # 事件订阅
             if 'severity' in data:
-                event(data, name, hsname, hschatid, chatid)
+                event(data, name, hsname, hschatid, chatid, ask)
             ################################################
             # 发生告警-告警处理
             elif data['alertState'] == 'ALERT':
