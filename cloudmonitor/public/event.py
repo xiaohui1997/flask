@@ -53,6 +53,7 @@ def login_ip(pname, hostname, d_level, d_name, zaiyao, product, hsname, uuids, u
 [登录源IP]: {}
 [登录端口]: {}
 [登录地点]: {}
+[常用登录地管理]: <a href="https://yundun.console.aliyun.com/?spm=5176.12818093.console-base_search-panel.dtab-product_sas.269416d0s75WE2&p=sas#/ruleManagement/usualLogin/location/global">地区加白</a>
 [历史报警]: <a href="https://t.me/{}">历史报警记录</a>""".format(
         pname,
         hostname,
@@ -69,8 +70,6 @@ def login_ip(pname, hostname, d_level, d_name, zaiyao, product, hsname, uuids, u
         re_address,
         str(hsname)
     )
-
-    print(msg)
     return msg
 
 
@@ -119,7 +118,7 @@ def event(data, name, hsname, hschatid, chatid, ask):
         return jsonify({'code': 200, 'info': '跳过,资源标签'}), 200
 
     #调试
-    print(data)
+    #print(data)
 
     msg = """<b>阿里云【{}】报警</b>
 
