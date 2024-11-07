@@ -31,24 +31,19 @@ def aliyun_webhook(name, chatid, hschatid, hsname):
                 'msg': '参数不完整'
             }
             return jsonify(info)
-        try:
-            # 事件订阅
-            if 'severity' in data:
-                event(data, name, hsname, hschatid, chatid, ask)
-            ################################################
-            # 发生告警-告警处理
-            elif data['alertState'] == 'ALERT':
-                # 通知告警
-                res = alert(data, name, hsname, hschatid, chatid)
-                return res
-            elif data['alertState'] == 'OK':
-                # 通知恢复
-                res = ok(data, name, hsname, hschatid, chatid)
-                return res
-            return jsonify({'code': 200, 'info': 'successful'}), 200
-        except Exception as e:
-            print('规则匹配错误/start bot')
-            print(e)
-            return jsonify({'code': 200, 'info': '规则匹配错误'}), 200
+        # 事件订阅
+        if 'severity' in data:
+            event(data, name, hsname, hschatid, chatid, ask)
+        ################################################
+        # 发生告警-告警处理
+        elif data['alertState'] == 'ALERT':
+            # 通知告警
+            res = alert(data, name, hsname, hschatid, chatid)
+            return res
+        elif data['alertState'] == 'OK':
+            # 通知恢复
+            res = ok(data, name, hsname, hschatid, chatid)
+            return res
+        return jsonify({'code': 200, 'info': 'successful'}), 200
     else:
         return 'Method not allowed'
