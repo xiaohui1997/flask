@@ -150,6 +150,7 @@ def event(data, name, hsname, hschatid, chatid, ask):
     res = send(msg, chat_id=chatid, ali_button=1, call_data='123', isFunc=1) #告警群
     send(msg, chat_id=hschatid)#历史群
     cancelmsg(msgid=str(res.message_id), chat_id=chatid, secodes=xh)
+    return jsonify({'code': 200, 'info': 'successful'}), 200
 
 if __name__ == '__main__':
     login_ip()
