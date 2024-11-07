@@ -31,17 +31,18 @@ def aliyun_webhook(name, chatid, hschatid, hsname):
                 'msg': '参数不完整'
             }
             return jsonify(info)
+        
         # 事件订阅
         if 'severity' in data:
             res = event(data, name, hsname, hschatid, chatid, ask)
             return res
         ################################################
         # 发生告警-告警处理
-        elif data['alertState'] == 'ALERT':
+        elif 'alertState' in data and data['alertState'] == 'ALERT':
             # 通知告警
             res = alert(data, name, hsname, hschatid, chatid)
             return res
-        elif data['alertState'] == 'OK':
+        elif 'alertState' in data and data['alertState'] == 'OK':
             # 通知恢复
             res = ok(data, name, hsname, hschatid, chatid)
             return res
