@@ -7,12 +7,12 @@ from alibabacloud_sas20181203 import models as sas_20181203_models
 from alibabacloud_tea_util import models as util_models
 
 
-def login_ip(pname, hostname, d_level, d_name, zaiyao, product, hsname, uuids, unique_info, ask):
+def login_ip(pname, hostname, d_level, d_name, zaiyao, product, hsname, uuids, unique_info, ask, region):
     # 解码
     decoded_bytes = base64.b64decode(ask)
     decoded_str = decoded_bytes.decode('utf-8')
     ak, sk = decoded_str.split('/')
-    client = Sample(ak, sk).create_client()
+    client = Sample(ak, sk, region).create_client()
     # 直接在这里定义请求参数
     describe_susp_events_request = sas_20181203_models.DescribeSuspEventsRequest(
         uuids=uuids,
@@ -110,7 +110,10 @@ def event(data, name, hsname, hschatid, chatid, ask):
     dt = time.strftime("%Y-%m-%d %H:%M:%S", time_local)
     # 详情
     xq = eval(data['alert'])['eventContentMap']
-
+    # 区域
+    zone = eval(data['alert'])['arn']
+    match = re.search(r'ecs:([^:]+):', zone)
+    region = match.group(1)
 
     #屏蔽部分消息
     if '磁盘快照' in zaiyao:
@@ -145,7 +148,7 @@ def event(data, name, hsname, hschatid, chatid, ask):
 )
     # 拦截异常登录需额外处理
     if '异常登录' in zaiyao and ask != None:
-        msg = login_ip(pname, hostname, d_level, d_name, zaiyao, product, hsname, uuids, unique_info, ask)
+        msg = login_ip(pname, hostname, d_level, d_name, zaiyao, product, hsname, uuids, unique_info, ask, region)
 
     #消息发送
     res = send(msg, chat_id=chatid, ali_button=1, call_data='123', isFunc=1) #告警群
