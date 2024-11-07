@@ -33,7 +33,8 @@ def aliyun_webhook(name, chatid, hschatid, hsname):
             return jsonify(info)
         # 事件订阅
         if 'severity' in data:
-            event(data, name, hsname, hschatid, chatid, ask)
+            res = event(data, name, hsname, hschatid, chatid, ask)
+            return res
         ################################################
         # 发生告警-告警处理
         elif data['alertState'] == 'ALERT':
