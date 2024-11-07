@@ -13,7 +13,7 @@ class Sample:
     def __init__(self, access_key_id, access_key_secret, region):
         self.access_key_id = access_key_id  # 请使用安全的方式存储密钥
         self.access_key_secret = access_key_secret
-        pass
+        self.region = region
 
     def create_client(self) -> Sas20181203Client:
         """
@@ -25,10 +25,10 @@ class Sample:
             access_key_id=self.access_key_id,  # 请使用安全的方式存储密钥
             access_key_secret=self.access_key_secret
         )
-        if region == "cn-hongkong":
+        if self.region == "cn-hongkong":
             config.endpoint = 'tds.aliyuncs.com'
         else:
-            config.endpoint = 'tds.{}.aliyuncs.com'.format(region)
+            config.endpoint = 'tds.{}.aliyuncs.com'.format(self.region)
         return Sas20181203Client(config)
 
     # @staticmethod
