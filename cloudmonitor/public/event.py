@@ -24,6 +24,7 @@ def login_ip(pname, hostname, d_level, d_name, zaiyao, product, hsname, uuids, u
     # 调用API并处理返回值
     res = client.describe_susp_events_with_options(describe_susp_events_request, runtime).to_map()
     print(res)
+    print('#'*30)
     # 事件名称
     re_name = res['body']['SuspEvents'][0]['AlarmEventNameDisplay']
     for i in res['body']['SuspEvents'][0]['Details']:
