@@ -90,10 +90,6 @@ def event(data, name, hsname, hschatid, chatid, ask):
     d_name = data['strategyName']
     # 通知摘要
     zaiyao = eval(data['alert'])['meta']['sysEventMeta']['eventNameZh']
-    # uuids
-    uuids = eval(data['alert'])['eventContentMap']['uuid']
-    # unique_info
-    unique_info = eval(data['alert'])['eventContentMap']['unique_info']
 
     # 主机名
     hostname = eval(data['alert'])['meta']['sysEventMeta']['instanceName']
@@ -148,6 +144,10 @@ def event(data, name, hsname, hschatid, chatid, ask):
 )
     # 拦截异常登录需额外处理
     if '异常登录' in zaiyao and ask != None:
+        # uuids
+        uuids = eval(data['alert'])['eventContentMap']['uuid']
+        # unique_info
+        unique_info = eval(data['alert'])['eventContentMap']['unique_info']
         msg = login_ip(pname, hostname, d_level, d_name, zaiyao, product, hsname, uuids, unique_info, ask, region)
 
     #消息发送
