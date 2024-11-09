@@ -33,7 +33,7 @@ class Sample:
         for i in response['data']['endpoints']:
             if i['regionId'] == self.region:
                 endpoint = i['public']
-        config.endpoint = 'tds.{}.aliyuncs.com'.format(endpoint)
+        config.endpoint = endpoint
         return Sas20181203Client(config)
 
     # @staticmethod
