@@ -7,6 +7,7 @@ from alibabacloud_tea_openapi import models as open_api_models
 from alibabacloud_sas20181203 import models as sas_20181203_models
 from alibabacloud_tea_util import models as util_models
 from alibabacloud_tea_util.client import Client as UtilClient
+import requests
 
 
 class Sample:
@@ -25,10 +26,14 @@ class Sample:
             access_key_id=self.access_key_id,  # 请使用安全的方式存储密钥
             access_key_secret=self.access_key_secret
         )
-        if self.region == "cn-hongkong":
-            config.endpoint = 'tds.aliyuncs.com'
-        else:
-            config.endpoint = 'tds.{}.aliyuncs.com'.format(self.region)
+
+        url='https://api.aliyun.com/meta/v1/products/Sas/endpoints.json?language=zh-CN'
+        response = requests.get(url).json()
+        endpoint = None
+        for i in response['data']['endpoints']:
+            if i['regionId'] == self.region:
+                endpoint = i['public']
+        config.endpoint = 'tds.{}.aliyuncs.com'.format(endpoint)
         return Sas20181203Client(config)
 
     # @staticmethod
