@@ -106,10 +106,6 @@ def event(data, name, hsname, hschatid, chatid, ask):
     dt = time.strftime("%Y-%m-%d %H:%M:%S", time_local)
     # 详情
     xq = eval(data['alert'])['eventContentMap']
-    # 区域
-    zone = eval(data['alert'])['arn']
-    match = re.search(r'ecs:([^:]+):', zone)
-    region = match.group(1)
 
     #屏蔽部分消息
     if '磁盘快照' in zaiyao:
@@ -144,6 +140,10 @@ def event(data, name, hsname, hschatid, chatid, ask):
 )
     # 拦截异常登录需额外处理
     if '异常登录' in zaiyao and ask != None:
+        # 区域
+        zone = eval(data['alert'])['arn']
+        match = re.search(r'ecs:([^:]+):', zone)
+        region = match.group(1)
         # uuids
         uuids = eval(data['alert'])['eventContentMap']['uuid']
         # unique_info
