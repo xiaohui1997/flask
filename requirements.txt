@@ -3,3 +3,4 @@ requests
 flask
 flask_sqlalchemy
 pymysql
+alibabacloud_sas20181203
