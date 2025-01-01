@@ -74,14 +74,14 @@ def alert(data, name, hsname, hschatid, chatid):
     )
     print(msg)
     # 消息发送
+    send(msg, chat_id=chatid)  # 告警群
     send(msg, chat_id=hschatid)  # 告警历史群
-    res = send(msg, chat_id=chatid, ali_button=1, call_data=data['transId'], isFunc=1)  # 告警群
     # 消息入库
-    new_webhook = AliWebhook(rules=str(data['metricName'] + ' ' + data['expression']),
-                             instanceId=eval(data['dimensionsOriginal'])['instanceId'], msgid=str(res.message_id),
-                             transId=data['transId'], timestamp=data['timestamp'])
-    db.session.add(new_webhook)
-    db.session.commit()
+    #new_webhook = AliWebhook(rules=str(data['metricName'] + ' ' + data['expression']),
+    #                         instanceId=eval(data['dimensionsOriginal'])['instanceId'], msgid=str(res.message_id),
+    #                         transId=data['transId'], timestamp=data['timestamp'])
+    #db.session.add(new_webhook)
+    #db.session.commit()
     return jsonify({'code': 200, 'info': '告警成功'}), 200
 
 
@@ -164,6 +164,7 @@ def ok(data, name, hsname, hschatid, chatid):
     except Exception as e:
         print('触发异常')
         print(e)
-        send(msg, chat_id=chatid, ali_button=1, call_data=data['transId'], isFunc=1)  # 告警群
-        send(msg, chat_id=hschatid)
+        #send(msg, chat_id=chatid, ali_button=1, call_data=data['transId'], isFunc=1)  # 告警群
+        send(msg, chat_id=chatid)  # 告警群
+        send(msg, chat_id=hschatid) # 告警历史群
     return jsonify({'code': 200, 'info': '告警恢复成功'}), 200
