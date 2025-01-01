@@ -30,7 +30,15 @@ def alert(data, name, hsname, hschatid, chatid):
         link = "https://kvstore.console.aliyun.com/Redis/instance/{}/{}".format(
             str(data['regionId']), eval(data['dimensionsOriginal'])['instanceId'])
     else:
-        return jsonify({'code': 200, 'info': '非报警消息'}), 403
+        #通用消息处理
+        try:
+            pname = data['metricProject']
+            IP = "无"
+            link = "https://cloudmonitor.console.aliyun.com"
+        except Exception as e:
+            print(e)
+            print('触发异常')
+            return jsonify({'code': 200, 'info': '非报警消息'}), 403
 
 #######################################上面条件判断########################################
 
@@ -100,7 +108,15 @@ def ok(data, name, hsname, hschatid, chatid):
         link = "https://rdsnext.console.aliyun.com/detail/{}/performance".format(
             eval(data['dimensionsOriginal'])['instanceId'])
     else:
-        return jsonify({'code': 200, 'info': '非报警消息'}), 403
+        # 通用消息处理
+        try:
+            pname = data['metricProject']
+            IP = "无"
+            link = "https://cloudmonitor.console.aliyun.com"
+        except Exception as e:
+            print(e)
+            print('触发异常')
+            return jsonify({'code': 200, 'info': '非报警消息'}), 403
 
     #######################################上面条件判断########################################
 
