@@ -151,20 +151,19 @@ def ok(data, name, hsname, hschatid, chatid):
         str(eval(data['dimensionsOriginal']))
     )
     # 查出告警的msgid
-    msgid_list = AliWebhook.query.with_entities(AliWebhook.msgid).filter_by(transId=data['transId']).order_by(
-        AliWebhook.msgid.desc()).all()
+    #msgid_list = AliWebhook.query.with_entities(AliWebhook.msgid).filter_by(transId=data['transId']).order_by(
+    #    AliWebhook.msgid.desc()).all()
     # 恢复消息发送
-    try:
-        res = reply_to_message(chat_id=chatid, message_id=msgid_list[0][0], text=msg)# 告警群
-        # 全部销毁
-        for i in msgid_list:
-            cancelmsg(msgid=i[0], chat_id=chatid, secodes=20)  # 撤销告警通知(可能有多个,批量销毁)
-        cancelmsg(msgid=str(res.message_id), chat_id=chatid, secodes=xh)  # 撤销回复
-        send(msg, chat_id=hschatid)  # 告警历史群
-    except Exception as e:
-        print('触发异常')
-        print(e)
+    #try:
+    #    res = reply_to_message(chat_id=chatid, message_id=msgid_list[0][0], text=msg)# 告警群
+    ##    for i in msgid_list:
+    #        cancelmsg(msgid=i[0], chat_id=chatid, secodes=20)  # 撤销告警通知(可能有多个,批量销毁)
+    #    cancelmsg(msgid=str(res.message_id), chat_id=chatid, secodes=xh)  # 撤销回复
+    #    send(msg, chat_id=hschatid)  # 告警历史群
+    #except Exception as e:
+        #print('触发异常')
+        #print(e)
         #send(msg, chat_id=chatid, ali_button=1, call_data=data['transId'], isFunc=1)  # 告警群
-        send(msg, chat_id=chatid)  # 告警群
-        send(msg, chat_id=hschatid) # 告警历史群
-    return jsonify({'code': 200, 'info': '告警恢复成功'}), 200
+    send(msg, chat_id=chatid)  # 告警群
+    send(msg, chat_id=hschatid) # 告警历史群
+   # return jsonify({'code': 200, 'info': '告警恢复成功'}), 200
