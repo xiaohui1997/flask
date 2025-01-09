@@ -166,4 +166,4 @@ def ok(data, name, hsname, hschatid, chatid):
         #send(msg, chat_id=chatid, ali_button=1, call_data=data['transId'], isFunc=1)  # 告警群
     send(msg, chat_id=chatid)  # 告警群
     send(msg, chat_id=hschatid) # 告警历史群
-   # return jsonify({'code': 200, 'info': '告警恢复成功'}), 200
+    return jsonify({'code': 200, 'info': '告警恢复成功'}), 200
