@@ -89,7 +89,11 @@ def event(data, name, hsname, hschatid, chatid, ask):
     # 策略名称
     d_name = data['strategyName']
     # 通知摘要
-    zaiyao = eval(data['alert'])['meta']['sysEventMeta']['eventNameZh']
+    try:
+        zaiyao = eval(data['alert'])['meta']['sysEventMeta']['eventNameZh']
+    except Exception as e:
+        print(e)
+        return jsonify({'code': 503, 'info': '跳过,zaiyao提取失败'}), 200
 
     # 主机名
     hostname = eval(data['alert'])['meta']['sysEventMeta']['instanceName']
@@ -112,6 +116,8 @@ def event(data, name, hsname, hschatid, chatid, ask):
         return jsonify({'code': 200, 'info': '跳过,快照'}), 200
     if '资源标签' in zaiyao:
         return jsonify({'code': 200, 'info': '跳过,资源标签'}), 200
+    if '云助手任务状态事件' in zaiyao:
+        return jsonify({'code': 200, 'info': '云助手标签'}), 200
 
     #调试
     #print(data)
@@ -151,9 +157,10 @@ def event(data, name, hsname, hschatid, chatid, ask):
         msg = login_ip(pname, hostname, d_level, d_name, zaiyao, product, hsname, uuids, unique_info, ask, region)
 
     #消息发送
-    res = send(msg, chat_id=chatid, ali_button=1, call_data='123', isFunc=1) #告警群
+    #res = send(msg, chat_id=chatid, ali_button=1, call_data='123', isFunc=1) #告警群
+    send(msg, chat_id=chatid)  # 历史群
     send(msg, chat_id=hschatid)#历史群
-    cancelmsg(msgid=str(res.message_id), chat_id=chatid, secodes=xh)
+    #cancelmsg(msgid=str(res.message_id), chat_id=chatid, secodes=xh)
     return jsonify({'code': 200, 'info': 'successful'}), 200
 
 if __name__ == '__main__':
