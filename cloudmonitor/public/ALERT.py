@@ -3,7 +3,7 @@ from Tg.tg import sedmsgs as send
 import time
 from Public.models import AliWebhook, AliWebhook_white, db
 from Tg.tg import cancelmsg, reply_to_message
-
+from Public.lark import send_message_alert, send_message_recover
 
 def alert(data, name, hsname, hschatid, chatid):
     '''
@@ -76,6 +76,8 @@ def alert(data, name, hsname, hschatid, chatid):
     # 消息发送
     send(msg, chat_id=chatid)  # 告警群
     send(msg, chat_id=hschatid)  # 告警历史群
+    if name == 'TB':
+        send_message_alert(data, pname, IP, link, hsname) #lg lark
     # 消息入库
     #new_webhook = AliWebhook(rules=str(data['metricName'] + ' ' + data['expression']),
     #                         instanceId=eval(data['dimensionsOriginal'])['instanceId'], msgid=str(res.message_id),
@@ -166,4 +168,6 @@ def ok(data, name, hsname, hschatid, chatid):
         #send(msg, chat_id=chatid, ali_button=1, call_data=data['transId'], isFunc=1)  # 告警群
     send(msg, chat_id=chatid)  # 告警群
     send(msg, chat_id=hschatid) # 告警历史群
+    if name == 'TB':
+        send_message_recover(data, pname, IP, link, hsname) #lg lark
     return jsonify({'code': 200, 'info': '告警恢复成功'}), 200
