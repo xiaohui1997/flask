@@ -1,7 +1,7 @@
 # 飞书机器人配置 LG
 FEISHU_CONFIG = {
-    "webhook_url": "https://open.larksuite.com/open-apis/bot/v2/hook/c51262e8-cac5-4f13-83ae-cf413895b14a",
-    "secret": "cz0FSl8ro1BGCi6bjsNVbe"
+    "webhook_url": "https://open.larksuite.com/open-apis/bot/v2/hook/4aa2b871-697b-4b3b-9e10-fc6014235b44",
+    "secret": "NNO8913n3aZA0UxDMuxwsd"
 }
 
 # 告警级别颜色配置
