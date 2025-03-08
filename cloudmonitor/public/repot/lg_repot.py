@@ -1,9 +1,8 @@
-import hashlib
-import base64
-import hmac
-import time
+import sys
+sys.path.append("/Users/fanye/fanye/tmp/flask")
+
 import requests
-from Public.config import FEISHU_CONFIG
+from Public.config import FEISHU_CONFIG_LG_REPORT as FEISHU_CONFIG
 import requests
 from Public.lark import get_signed_params
 
