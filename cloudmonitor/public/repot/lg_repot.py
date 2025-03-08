@@ -1,5 +1,6 @@
 import sys
 sys.path.append("/data/flask")
+#sys.path.append("/Users/fanye/fanye/tmp/flask")
 
 import requests
 from Public.config import FEISHU_CONFIG_LG_REPORT as FEISHU_CONFIG
@@ -19,7 +20,7 @@ cms_client = get_cms_client(
 
 
 # 渲染表格的函数
-def render_table(data, title="内存使用率"):
+def render_table(data, title="内存使用率", unit="%"):
     # 找出实例名称的最大长度，确保列宽一致
     max_name_length = max(len(item[0]) for item in data)
     
@@ -29,8 +30,14 @@ def render_table(data, title="内存使用率"):
     # 遍历数据生成每一行
     for item in data:
         instance_name, value = item
+        if unit == '%':
+            # 判断是否超过 85，如果超过则加 "！"
+            alert = "⚠️" if value > 85 else ""
+        else:
+            # 判断是否超过 10000，如果超过则加 "！"-kafka堆积量
+            alert = "⚠️" if value > 10000 else ""
         # 动态调整列宽，{max_name_length} 确保名称列宽度一致
-        result += f"| {instance_name:<{max_name_length + 2 }} | {value:.2f}  |\n"
+        result += f"| {instance_name:<{max_name_length + 2 }} | {value:.2f}{unit}{alert} |\n"
     
     return result
 
@@ -175,7 +182,7 @@ def get_kafka_data():
         sorted_data = sorted(metric_sort, key=lambda x: x[1], reverse=True)
 
         # 调用函数生成表格
-        table = render_table(sorted_data,metric_name_cn)
+        table = render_table(sorted_data,metric_name_cn, unit='')
         # 打印结果
         msg += table
     return msg
