@@ -1,5 +1,5 @@
 import sys
-sys.path.append("/Users/fanye/fanye/tmp/flask")
+sys.path.append("/data/flask")
 
 import requests
 from Public.config import FEISHU_CONFIG_LG_REPORT as FEISHU_CONFIG
