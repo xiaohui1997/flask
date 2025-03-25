@@ -118,6 +118,8 @@ def event(data, name, hsname, hschatid, chatid, ask):
         return jsonify({'code': 200, 'info': '跳过,资源标签'}), 200
     if '云助手任务状态事件' in zaiyao:
         return jsonify({'code': 200, 'info': '云助手标签'}), 200
+    if '网卡操作完成' in zaiyao:
+        return jsonify({'code': 200, 'info': '云助手标签'}), 200
 
     #调试
     #print(data)
