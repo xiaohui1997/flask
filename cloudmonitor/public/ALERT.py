@@ -81,7 +81,6 @@ def alert(data, name, hsname, hschatid, chatid):
         str(eval(data['dimensionsOriginal']))
     )
     print(msg)
-    exit()
     # 消息发送
     send(msg, chat_id=chatid)  # 告警群
     send(msg, chat_id=hschatid)  # 告警历史群
