@@ -29,6 +29,14 @@ def alert(data, name, hsname, hschatid, chatid):
         IP = "无"
         link = "https://kvstore.console.aliyun.com/Redis/instance/{}/{}".format(
             str(data['regionId']), eval(data['dimensionsOriginal'])['instanceId'])
+
+    #多指标处理
+    elif data['metricName'] == "多指标":
+        pname = data['metricProject']
+        IP = "无"
+        link = "https://cloudmonitor.console.aliyun.com"
+        data['curValue'] = ''
+        data['unit'] = ''
     else:
         #通用消息处理
         try:
@@ -73,6 +81,7 @@ def alert(data, name, hsname, hschatid, chatid):
         str(eval(data['dimensionsOriginal']))
     )
     print(msg)
+    exit()
     # 消息发送
     send(msg, chat_id=chatid)  # 告警群
     send(msg, chat_id=hschatid)  # 告警历史群
@@ -109,6 +118,13 @@ def ok(data, name, hsname, hschatid, chatid):
         IP = "无"
         link = "https://rdsnext.console.aliyun.com/detail/{}/performance".format(
             eval(data['dimensionsOriginal'])['instanceId'])
+    # 多指标处理
+    elif data['metricName'] == "多指标":
+        pname = data['metricProject']
+        IP = "无"
+        link = "https://cloudmonitor.console.aliyun.com"
+        data['curValue'] = ''
+        data['unit'] = ''
     else:
         # 通用消息处理
         try:
