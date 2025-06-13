@@ -127,6 +127,8 @@ def event(data, name, hsname, hschatid, chatid, ask):
         return jsonify({'code': 200, 'info': '网卡操作完成'}), 200
     if 'DDOS木马精准防御' in dict_as_string: #临时
         return jsonify({'code': 200, 'info': 'DDOS木马精准防御'}), 200
+    if 'DDOS木马' in dict_as_string: #临时
+        return jsonify({'code': 200, 'info': 'DDOS木马'}), 200
     if 'ExpireTime' in dict_as_string: #到期事件猜测是产品订阅
         return jsonify({'code': 200, 'info': 'ExpireTime'}), 200
 
