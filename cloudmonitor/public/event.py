@@ -110,8 +110,13 @@ def event(data, name, hsname, hschatid, chatid, ask):
     dt = time.strftime("%Y-%m-%d %H:%M:%S", time_local)
     # 详情
     xq = eval(data['alert'])['eventContentMap']
-
-    #屏蔽部分消息
+    '''
+    屏蔽区域,屏蔽无用事件或不需要的事件告警
+    '''
+    # 将xq字典转换为字符串
+    dict_as_string = str(xq)
+    if '镜像状态改变事件' in zaiyao:
+        return jsonify({'code': 200, 'info': '跳过,镜像状态改变事件'}), 200
     if '磁盘快照' in zaiyao:
         return jsonify({'code': 200, 'info': '跳过,快照'}), 200
     if '资源标签' in zaiyao:
@@ -119,7 +124,11 @@ def event(data, name, hsname, hschatid, chatid, ask):
     if '云助手任务状态事件' in zaiyao:
         return jsonify({'code': 200, 'info': '云助手标签'}), 200
     if '网卡操作完成' in zaiyao:
-        return jsonify({'code': 200, 'info': '云助手标签'}), 200
+        return jsonify({'code': 200, 'info': '网卡操作完成'}), 200
+    if 'DDOS木马精准防御' in dict_as_string: #临时
+        return jsonify({'code': 200, 'info': 'DDOS木马精准防御'}), 200
+    if 'ExpireTime' in dict_as_string: #到期事件猜测是产品订阅
+        return jsonify({'code': 200, 'info': 'ExpireTime'}), 200
 
     #调试
     #print(data)

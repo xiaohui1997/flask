@@ -16,6 +16,9 @@ chat_id = None
 #token变量
 start_token = '7118659013:AAHhmIKDylUSVaDP6myn2cR6uFEfGLZ3Prw'
 
+#测试专用
+#start_token = '7565878299:AAGtfukN_OF-DJ5gakpe_pRGHREL0vQ07U4'
+
 
 # 创建 Telegram 机器人处理器
 def start(update: Update, context) -> None:
