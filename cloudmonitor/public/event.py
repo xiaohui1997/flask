@@ -27,6 +27,8 @@ def login_ip(pname, hostname, d_level, d_name, zaiyao, product, hsname, uuids, u
     print('#'*30)
     # 事件名称
     re_name = res['body']['SuspEvents'][0]['AlarmEventNameDisplay']
+    # 默认值
+    re_port = '未知'
     for i in res['body']['SuspEvents'][0]['Details']:
         if i['NameDisplay'] == '登录时间':
             re_time = i['Value']
